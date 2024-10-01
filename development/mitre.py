@@ -127,4 +127,8 @@ for file in alert_data:
         except KeyError:
             pass
 
-print("MITRE VALIDATION SUCCESSFULLY COMPLETED! :)")
+if failure != 0:
+    sys.exit(1)
+
+else:
+    print("MITRE VALIDATION SUCCESSFULLY COMPLETED! :)")
