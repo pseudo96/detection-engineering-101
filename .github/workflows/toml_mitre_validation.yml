@@ -9,7 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+      - uses: actions/python@v5
+        with:
+          python-version: '3.11.4'
       - run: |
           python development/validation.py
           python development/mitre.py
