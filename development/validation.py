@@ -9,7 +9,7 @@ It then sets the list of madatory fields required in the toml section based on t
 If the fields from the required_fields list are not present in the toml file, they get added to a separate list and then a missing field message is printed on screen. 
 '''
 
-
+failure = 0
 
 # Navigate through the custom_alerts directory and look for TOML files, and then parse them using tomlllib.load() and then perform the validation for the respective rule type.
 for root,dir,files in os.walk("detections/"):
@@ -48,5 +48,9 @@ for root,dir,files in os.walk("detections/"):
 
                 if missing_fields:
                     print("The following fields are not present in " + file + ": " + str(missing_fields))
+                    failure = 1
                 else:
                     print("Validation passed for: " + file)
+
+if failure != 0:
+    sys.exit(1)

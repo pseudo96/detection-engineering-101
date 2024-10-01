@@ -5,6 +5,8 @@ import tomllib
 '''
 Python program to update the details of a rule by sending a PUT request to /api/detection_engine/rules with the rule_id parameter.
 '''
+
+
 # LOAD API KEY
 api_key = os.environ['ELASTIC_KEY']
 #print(api_key)
