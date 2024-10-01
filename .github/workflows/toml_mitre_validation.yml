@@ -11,6 +11,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - run: |
-          python developement/validation.py
+          python development/validation.py
           python development/mitre.py
           
