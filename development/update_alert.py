@@ -20,19 +20,23 @@ headers = {
     'Authorization': 'ApiKey ' + api_key
 }
 
-# How do we generate the data variable? We have TOML, but the API only takes JSON.
+# Contains list of files updated / changed in the latest commit.
+changed_files = os.environ["CHANGED_FILES"]
 
 data = ""
 
-# Navigate through the custom_alerts directory and look for TOML files, and then parse them using tomlllib.load() and then perform the validation for the respective rule type.
+# How do we generate the data variable? We have TOML, but the API only takes JSON.
+# Navigate through the detections directory and look for TOML files, and then parse them using tomlllib.load() and then perform the validation for the respective rule type.
 for root,dir,files in os.walk("detections/"):
     for file in files:
-        data = "{\n"
-        if file.endswith(".toml"):
-            full_path = os.path.join(root,file) # Create full path of the toml document since file will only carry the individual file name and not the full path.
-            with open(full_path,"rb") as toml:
-                alert = tomllib.load(toml) # Dictionary object returned by tomllib.load()
-                # Different types of rule can make use of certain fields unique to that rule type, which makes those fields mandatory for that rule type.
+        if file in changed_files:
+            data = "{\n"
+            if file.endswith(".toml"):
+                full_path = os.path.join(root,file) # Create full path of the toml document since file will only carry the individual file name and not the full path.
+                with open(full_path,"rb") as toml:
+                    alert = tomllib.load(toml) # Dictionary object returned by tomllib.load()
+                
+                # Different rule types can make use of certain fields unique to that rule type, which makes those fields mandatory for that rule type.
                 # We check the alert.rule.type attribute from the result obtained above and create the required_fields list accordingly.
                 # From here we can add the other required fields as necessary
                 if alert['rule']['type'] == 'query': # Query based alert
@@ -63,14 +67,14 @@ for root,dir,files in os.walk("detections/"):
                         elif type(alert['rule'][field]) == int:
                             data += "  " + "\"" + field + "\": " + str(alert['rule'][field]) + ",\n"
                         elif type(alert['rule'][field]) == dict:
-                           data += "  " + "\"" + field + "\": " + str(alert['rule'][field]).replace("\'","\"") + ",\n"
-            data += "  \"enabled\": true\n}"
+                            data += "  " + "\"" + field + "\": " + str(alert['rule'][field]).replace("\'","\"") + ",\n"
+                data += "  \"enabled\": true\n}"
 
-        # Extract rule ID from the alerts and add it to the URL. 
-        rule_id = alert['rule']['rule_id']
-        url = url + '?rule_id=' + rule_id
+            # Extract rule ID from the alerts and add it to the URL. 
+            rule_id = alert['rule']['rule_id']
+            url = url + '?rule_id=' + rule_id
 
-        # PUT request created with the rule_id parameter in place, to update that rule.   
-        elastic_data = requests.put(url,headers=headers,data=data).json()
-        print(elastic_data)
+            # PUT request created with the rule_id parameter in place, to update that rule.   
+            elastic_data = requests.put(url,headers=headers,data=data).json()
+            print(elastic_data)
         
