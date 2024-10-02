@@ -77,4 +77,12 @@ for root,dir,files in os.walk("detections/"):
             # PUT request created with the rule_id parameter in place, to update that rule.   
             elastic_data = requests.put(url,headers=headers,data=data).json()
             print(elastic_data)
+
+            # A net new rule does not have a rule_id assigned to it. Therefore, when we use the PUT request to the detections API for a new rule, it results in a HTTP 404 error.
+            # To counter this, we look for the status_code field in the json response from elastic, and make a POST request instead, that adds the new rule.
+            for key in elastic_data:
+            if key == "status_code":
+                if 404 == elastic_data["status_code"]:
+                    elastic_data = requests.post(url,headers=headers,data=data).json()
+                    print(elastic_data
         
