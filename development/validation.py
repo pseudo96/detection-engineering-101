@@ -22,6 +22,13 @@ for root,dir,files in os.walk("detections/"):
                 present_fields = [] # List of fields present in the toml file currently
                 missing_fields = [] # List of fields from required fields that are missing in the toml file
 
+                try:
+                    if not alert['metadata']['creation_date']:
+                        pass
+                except:
+                    print("The metadata does not contain a creation_date on: " + full_path)
+                    failure = 1
+
                 # Different types of rule can make use of certain fields unique to that rule type, which makes those fields mandatory for that rule type.
                 # We check the alert.rule.type attribute from the result obtained above and create the required_fields list accordingly.
                 if alert['rule']['type'] == 'query': # Query based alert
