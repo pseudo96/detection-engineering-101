@@ -17,7 +17,7 @@ jobs:
       - run: python development/toml_to_report.py
       - run:  |
           git config user.name github-actions
-          git configu user.email github-actions@github.com
+          git config user.email github-actions@github.com
           git add .
           git commit -m "Updating Metrics"
           git push -f
