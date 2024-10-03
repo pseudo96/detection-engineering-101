@@ -1,3 +1,6 @@
+[metadata]
+creation_date = "2024/10/02"
+
 [rule]
 author = ["Sudharsan Narasimhan"]
 description = "Triggers when more than 1000 queries to a web server have been observed in a 5 min window."
