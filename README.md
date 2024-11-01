@@ -9,3 +9,6 @@ Contents of this repository include the following directories:
 1. Detection - Contains a sample set of 10 TOML rules created for various detection scenarios
 2. Development - This directory is a collection of scripts relating to data validation and also metric population
 3. Metrics - Contains results from the scripts associated with generating metrics, present in the development directory
+
+
+This project is directly inspired from the detection engineering 101 course from TCM Security academy, complete with data validation scripts, Github actions (simulating a CI/CD pipeline) and scripts to publish metrics.
