@@ -31,7 +31,7 @@ for root,dir,files in os.walk("detections/"):
             full_path = os.path.join(root,file) # Create full path of the toml document since file will only carry the individual file name and not the full path.
             with open(full_path,"rb") as toml:
                 alert = tomllib.load(toml) # Dictionary object returned by tomllib.load()
-                # Different types of rule can make use of certain fields unique to that rule type, which makes those fields mandatory for that rule type.
+                # Different rules (based on type) can make use of certain fields unique to that rule type, which makes those fields mandatory for that rule type.
                 # We check the alert.rule.type attribute from the result obtained above and create the required_fields list accordingly.
                 # From here we can add the other required fields as necessary
                 if alert['rule']['type'] == 'query': # Query based alert
