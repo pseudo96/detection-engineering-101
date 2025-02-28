@@ -13,4 +13,4 @@ Contents of this repository include the following directories:
 
 This project is directly inspired from the detection engineering 101 course from TCM Security academy, complete with data validation scripts, Github actions (simulating a CI/CD pipeline) and scripts to publish metrics.
 
-use the .guthub/workflows/README.md to understand what each github workflow is responsible for.
+Please refer `.github/workflows/README.md` to understand what each github workflow is responsible for.
